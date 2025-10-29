@@ -2,12 +2,21 @@ package AVLTree;
 
 public class AVLTree<T extends Comparable<T>> {
     
+    // root node
     Node<T> root;
 
+    /**
+     * Simple constructor.
+     */
     public AVLTree() {
         this.root = null;
     }
 
+    /**
+     * Allows for the insertion of data into the tree.
+     * @param data
+     * @throws IllegalArgumentException
+     */
     public void insert(T data) throws IllegalArgumentException {
         if (data == null)
             throw new IllegalArgumentException("Can not insert null into a tree.");
@@ -21,6 +30,7 @@ public class AVLTree<T extends Comparable<T>> {
 
         // otherwise look for the spot and insert
         insertHelper(insertNode, this.root);
+        ensureBalance(this.root);
     }
 
     /**
@@ -31,7 +41,7 @@ public class AVLTree<T extends Comparable<T>> {
      * @param insertNode
      * @param search
      */
-    private void insertHelper(Node<T> insertNode, Node<T> search) {
+    public void insertHelper(Node<T> insertNode, Node<T> search) {
         int comparison = insertNode.getData().compareTo(search.getData());
 
         // case 2: insert nodes data is less than current nodes data
@@ -50,6 +60,7 @@ public class AVLTree<T extends Comparable<T>> {
             && search.getLeft() != null) 
         {
             insertHelper(insertNode, search.getLeft());
+            ensureBalance(search.getLeft());
             return;
         }
 
@@ -69,6 +80,7 @@ public class AVLTree<T extends Comparable<T>> {
             && search.getRight() != null)
         {
             insertHelper(insertNode, search.getRight());
+            ensureBalance(search.getRight());
             return;
         }
 
@@ -94,14 +106,40 @@ public class AVLTree<T extends Comparable<T>> {
             liminalNode.setParent(liminalNode);
             return;
         }
-
-        // recursive cases
-        if (comparison < 0) {insertHelper(insertNode, search.getLeft());}
-        if (comparison > 0) {insertHelper(insertNode, search.getRight());}
     }
 
-    void delete() {
+    public void delete() {
 
+    }
+
+    public void deleteHelper(Node<T> deletionNode) {
+
+    }
+
+    /**
+     * Ensures the tree is balanced. Called as recusion is undone in insertHelper() and insert().
+     * @param node
+     */
+    public void ensureBalance(Node<T> node) {
+        int leftHeight = height(node.getLeft());
+        int rightHeight = height(node.getRight());
+        int balanceFactor = leftHeight - rightHeight;
+
+        // if balance factor is greater than 2, subtree is weighted left
+        // rotate right
+        if (balanceFactor >= 2)
+        {
+            rotate(node.getLeft(), node);
+        }
+
+        // if balance factor is less than -2, subtree is weighted right
+        // rotate left
+        else if (balanceFactor <= -2)
+        {
+            rotate(node.getRight(), node);
+        }
+
+        return;
     }
 
     /**
@@ -118,7 +156,7 @@ public class AVLTree<T extends Comparable<T>> {
      * Internal helper method for self balancing.
      * @param search
      */
-    private int height(Node<T> search) {
+    public int height(Node<T> search) {
         if (search == null)
             return 0;
 
@@ -128,6 +166,10 @@ public class AVLTree<T extends Comparable<T>> {
         return Math.max(leftHeight, rightHeight);
     }
 
+    /**
+     * Returns how many nodes are in the tree.
+     * @return
+     */
     public int size() {
         if (this.root == null)
             return 0;
@@ -135,25 +177,123 @@ public class AVLTree<T extends Comparable<T>> {
         return sizeHelper(this.root);
     }
 
-    private int sizeHelper(Node<T> search) {
+    /**
+     * Internal helper method for size().
+     * @param search
+     * @return
+     */
+    public int sizeHelper(Node<T> search) {
         if (search == null)
             return 0;
 
         return 1 + sizeHelper(search.getLeft()) + sizeHelper(search.getRight());
     }
 
+    /**
+     * Clears the tree.
+     */
+    public void clear() {
+        this.root = null;
+    }
+
+    /**
+     * Checks to see if the tree is empty.
+     * @return
+     */
     public boolean isEmpty() {
         return (this.root == null) ? true : false;
     }
 
-    Node<T> getRoot() {
+    /**
+     * Method used to rotate a child in the parents direction.
+     * @param child
+     * @param parent
+     * @throws IllegalArgumentException
+     */
+    public void rotate(Node<T> child, Node<T> parent) throws IllegalArgumentException 
+    {
+        if (child.getParent() != parent)
+            throw new IllegalArgumentException("These two nodes are not related.");
+
+        if (child == null || parent == null)
+            throw new IllegalArgumentException("All arguments must be non-null.");
+
+        // some instantiables for readability
+        Node<T> liminalNode = null, grandparentNode = null;
+
+        // if grandparent not null, grab it
+        if (parent.getParent() != null) {
+            grandparentNode = parent.getParent();
+        }
+
+        // left rotate
+        if (child.isRightChild()) {
+
+            // if theres a liminal node, grab it
+            if (child.getLeft() != null)
+                liminalNode = child.getLeft(); 
+
+            // child becomes new parent
+            child.setParent(grandparentNode);
+            if (grandparentNode != null && parent.isRightChild())
+                grandparentNode.setRight(child);
+            
+            if (grandparentNode != null && !parent.isRightChild())
+                grandparentNode.setLeft(child);
+
+            child.setLeft(parent);
+
+            // parent becomes new child, leaving left subtree untouched
+            parent.setParent(child);
+
+            // liminal node gets moved over if it exists
+            parent.setRight(liminalNode);
+            if (liminalNode != null)
+                liminalNode.setParent(parent);
+
+            // if grandparent node is null, we must be at root
+            // so new parent is now root
+            if (grandparentNode == null)
+                this.root = child;
+
+        } else if (!child.isRightChild()) {
+
+            // if theres a liminal node, grab it
+            if (child.getRight() != null)
+                liminalNode = child.getRight(); 
+
+            // child becomes new parent
+            child.setParent(grandparentNode);
+            if (grandparentNode != null && parent.isRightChild())
+                grandparentNode.setRight(child);
+            
+            if (grandparentNode != null && !parent.isRightChild())
+                grandparentNode.setLeft(child);
+
+            child.setRight(parent);
+
+            // parent becomes new child, leaving left subtree untouched
+            parent.setParent(child);
+
+            // liminal node gets moved over if it exists
+            parent.setLeft(liminalNode);
+            if (liminalNode != null)
+                liminalNode.setParent(parent);
+
+            // if grandparent node is null, we must be at root
+            // so new parent is now root
+            if (grandparentNode == null)
+                this.root = child;
+        }
+    }
+    
+    // testing methods
+    // TODO: remove after tests
+    public Node<T> getRoot() {
         return this.root;
     }
 
-    /**
-     * Rotation utilities
-     */
-    class Rotator {
-
+    public void setRoot(Node<T> newRoot) {
+        this.root = newRoot;
     }
 }

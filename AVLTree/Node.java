@@ -4,25 +4,25 @@ package AVLTree;
  * Simple node.
  * @author Matthew Smith
  */
-class Node<T extends Comparable<T>> {
+public class Node<T extends Comparable<T>> {
 
-    T data;
-    Node<T> parent;
-    Node<T> left;
-    Node<T> right;
+    public T data;
+    public Node<T> parent;
+    public Node<T> left;
+    public Node<T> right;
     
     /**
      * Constructor. Only way to set data.
      * @param data
      */
-    Node(T data) {
+    public Node(T data) {
         this.data = data;
         this.parent = null;
         this.left = null;
         this.right = null;
     }
 
-    boolean isRightChild() {
+    public boolean isRightChild() {
         if (this.getParent() == null)
             return false;
 
@@ -30,31 +30,31 @@ class Node<T extends Comparable<T>> {
     }
 
     // getters and setters
-    T getData() {
+    public T getData() {
         return this.data;
     }
 
-    Node<T> getParent() {
+    public Node<T> getParent() {
         return this.parent;
     }
 
-    Node<T> getLeft() {
+    public Node<T> getLeft() {
         return this.left;
     }
 
-    Node<T> getRight() {
+    public Node<T> getRight() {
         return this.right;
     }
 
-    void setParent(Node<T> parentNode) {
+    public void setParent(Node<T> parentNode) {
         this.parent = parentNode;
     }
     
-    void setLeft(Node<T> leftNode) {
+    public void setLeft(Node<T> leftNode) {
         this.left = leftNode;
     }
 
-    void setRight(Node<T> rightNode) {
+    public void setRight(Node<T> rightNode) {
         this.right = rightNode;
     }
 }
