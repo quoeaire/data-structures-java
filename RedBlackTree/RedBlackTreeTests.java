@@ -19,13 +19,13 @@ class RedBlackTreeTests {
         RedBlackNode<Integer> nodeTwo = new RedBlackNode<Integer>(-1);
         RedBlackNode<Integer> nodeThree = new RedBlackNode<Integer>(1);
 
-        nodeOne.setLeftChild(nodeTwo);
+        nodeOne.setLeft(nodeTwo);
         nodeTwo.setParent(nodeOne);
-        nodeOne.setRightChild(nodeThree);
+        nodeOne.setRight(nodeThree);
         nodeThree.setParent(nodeOne);
-        Assertions.assertFalse(nodeTwo.isRightChild(), 
+        Assertions.assertFalse(nodeTwo.isRight(), 
             "[ 1 ]  ##  Node is considered right child.");
-        Assertions.assertTrue(nodeThree.isRightChild(), 
+        Assertions.assertTrue(nodeThree.isRight(), 
             "[ 2 ]  ##  Node is considered right child.");
 
         // 2. Test that node color can be flipped
@@ -56,14 +56,14 @@ class RedBlackTreeTests {
             "positions",
             () -> {Assertions.assertEquals(10, tree.root.getData());},
             () -> {Assertions.assertTrue(tree.root.isBlack());},
-            () -> {Assertions.assertEquals(5, tree.root.getLeftChild().getData());},
-            () -> {Assertions.assertTrue(tree.root.getLeftChild().isBlack());},
-            () -> {Assertions.assertEquals(15, tree.root.getRightChild().getData());},
-            () -> {Assertions.assertTrue(tree.root.getRightChild().isBlack());},
-            () -> {Assertions.assertEquals(8, tree.root.getLeftChild().getRightChild().getData());},
-            () -> {Assertions.assertTrue(!tree.root.getLeftChild().getRightChild().isBlack());},
-            () -> {Assertions.assertEquals(18, tree.root.getRightChild().getRightChild().getData());},
-            () -> {Assertions.assertTrue(!tree.root.getRightChild().getRightChild().isBlack());}
+            () -> {Assertions.assertEquals(5, tree.root.getLeft().getData());},
+            () -> {Assertions.assertTrue(tree.root.getLeft().isBlack());},
+            () -> {Assertions.assertEquals(15, tree.root.getRight().getData());},
+            () -> {Assertions.assertTrue(tree.root.getRight().isBlack());},
+            () -> {Assertions.assertEquals(8, tree.root.getLeft().getRight().getData());},
+            () -> {Assertions.assertTrue(!tree.root.getLeft().getRight().isBlack());},
+            () -> {Assertions.assertEquals(18, tree.root.getRight().getRight().getData());},
+            () -> {Assertions.assertTrue(!tree.root.getRight().getRight().isBlack());}
         );
 
         // 3. Affirm inserting duplicates creates expected tree structure
@@ -73,13 +73,13 @@ class RedBlackTreeTests {
         Assertions.assertAll(
             "positions",
             () -> {Assertions.assertEquals(10, tree.root.getData());},
-            () -> {Assertions.assertEquals(10, tree.root.getLeftChild().getData());},
-            () -> {Assertions.assertEquals(15, tree.root.getRightChild().getData());},
-            () -> {Assertions.assertEquals(null, tree.root.getLeftChild().getRightChild());},
-            () -> {Assertions.assertEquals(5, tree.root.getLeftChild().getLeftChild().getData());},
-            () -> {Assertions.assertEquals(8, tree.root.getLeftChild().getLeftChild().getRightChild().getData());},
-            () -> {Assertions.assertEquals(18, tree.root.getRightChild().getRightChild().getData());},
-            () -> {Assertions.assertEquals(18, tree.root.getRightChild().getRightChild().getLeftChild().getData());}
+            () -> {Assertions.assertEquals(10, tree.root.getLeft().getData());},
+            () -> {Assertions.assertEquals(15, tree.root.getRight().getData());},
+            () -> {Assertions.assertEquals(null, tree.root.getLeft().getRight());},
+            () -> {Assertions.assertEquals(5, tree.root.getLeft().getLeft().getData());},
+            () -> {Assertions.assertEquals(8, tree.root.getLeft().getLeft().getRight().getData());},
+            () -> {Assertions.assertEquals(18, tree.root.getRight().getRight().getData());},
+            () -> {Assertions.assertEquals(18, tree.root.getRight().getRight().getLeft().getData());}
         );
         }
 

@@ -5,8 +5,8 @@ public class RedBlackNode<T extends Comparable<T>>{
     protected T data;
     protected boolean isBlack;
     private RedBlackNode<T> parent;
-    private RedBlackNode<T> leftChild;
-    private RedBlackNode<T> rightChild;
+    private RedBlackNode<T> left;
+    private RedBlackNode<T> right;
 
     /**
      * Creates a new node with supplied data and without references to other nodes.
@@ -16,8 +16,8 @@ public class RedBlackNode<T extends Comparable<T>>{
         this.data = data;
         this.isBlack = false;
         this.parent = null;
-        this.leftChild = null;
-        this.rightChild = null;
+        this.left = null;
+        this.right = null;
     }
 
     /**
@@ -25,8 +25,8 @@ public class RedBlackNode<T extends Comparable<T>>{
      * @return true if current node is right child
      * @return false if current node is not right child or does not have a parent.
      */
-    public boolean isRightChild() {
-        if (this.getParent() != null && this.getParent().getRightChild() == this)
+    public boolean isRight() {
+        if (this.getParent() != null && this.getParent().getRight() == this)
             return true;
 
         return false;
@@ -45,12 +45,12 @@ public class RedBlackNode<T extends Comparable<T>>{
         return this.parent;
     }
 
-    public RedBlackNode<T> getLeftChild() {
-        return this.leftChild;
+    public RedBlackNode<T> getLeft() {
+        return this.left;
     }
 
-    public RedBlackNode<T> getRightChild() {
-        return this.rightChild;
+    public RedBlackNode<T> getRight() {
+        return this.right;
     }
 
     public void setData(T data) {
@@ -67,12 +67,12 @@ public class RedBlackNode<T extends Comparable<T>>{
         this.parent = parent;
     }
 
-    public void setLeftChild(RedBlackNode<T> leftChild) {
-        this.leftChild = leftChild;
+    public void setLeft(RedBlackNode<T> left) {
+        this.left = left;
     }
 
-    public void setRightChild(RedBlackNode<T> rightChild) {
-        this.rightChild = rightChild;
+    public void setRight(RedBlackNode<T> right) {
+        this.right = right;
     }
 
 }

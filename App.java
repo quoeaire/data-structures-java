@@ -6,5 +6,8 @@ class App {
         System.out.println("Welcome to Midterm Review");
         System.out.println("===================================\n");
 
+
+
+        in.close();
     }
 }
