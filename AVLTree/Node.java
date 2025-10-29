@@ -22,6 +22,13 @@ class Node<T extends Comparable<T>> {
         this.right = null;
     }
 
+    boolean isRightChild() {
+        if (this.getParent() == null)
+            return false;
+
+        return (this.getData().compareTo(this.getParent().getData()) > 0) ? true : false;
+    }
+
     // getters and setters
     T getData() {
         return this.data;
