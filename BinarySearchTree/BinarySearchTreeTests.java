@@ -2,7 +2,7 @@ package BinarySearchTree;
 
 import org.junit.jupiter.api.*;
 
-class BSTTests {
+class BinarySearchTreeTests {
 
     /**
      * Binary Node Tester, tests:
@@ -79,13 +79,12 @@ class BSTTests {
     @Test
     public void testRotate() {
         BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
-        Rotator<Integer> r = new Rotator<Integer>();
         
         tree.insert(2);
         tree.insert(1);
         tree.insert(4);
         tree.insert(3);
-        r.rotate(tree.root, tree.root.getRightChild());
+        tree.rotate(tree.root, tree.root.getRightChild());
         Assertions.assertAll(
             "positions",
             () -> {Assertions.assertEquals(4, tree.root.getData());},
@@ -94,7 +93,7 @@ class BSTTests {
             () -> {Assertions.assertEquals(3, tree.root.getLeftChild().getRightChild().getData());}
         );
         
-        r.rotate(tree.root, tree.root.getRightChild());
+        tree.rotate(tree.root, tree.root.getRightChild());
         Assertions.assertAll(
             "positions",
             () -> {Assertions.assertEquals(4, tree.root.getData());},
