@@ -140,6 +140,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
             if (right != null)
                 rightGrandchild = right.getLeftChild();
 
+            // TODO: implement deletion algorithm
             // default to using leftGrandchild are replacement
             if (leftGrandchild != null)
             {

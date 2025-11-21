@@ -1,7 +1,5 @@
 package RedBlackTree;
 
-import BinarySearchTree.Rotator;
-
 public class RedBlackTree<T extends Comparable<T>> {
     // the root node
     protected RedBlackNode<T> root;
